@@ -12,6 +12,7 @@ class YungSpider:
 	base_url = ''
 	domain_name =''
 
+
 	'''
 		Set that will determine what has been crawled and what
 		needs to be crawled.
@@ -25,13 +26,25 @@ class YungSpider:
 
 		# Initialization of the Yung Spider.
 		print("Initializing")
-		self.project_name = project_name
-		self.base_url = base_url
-		self.domain_name = domain_name
+		YungSpider.project_name = project_name
+		YungSpider.base_url = base_url
+		YungSpider.domain_name = domain_name
 		self.setup()
 
 	# Sets up the web crawler.
+	@staticmethod
 	def setup(self):
 		create_project_dir(self.project_name)
+		create_data_files(self.project_name, self.base_url)
+		YungSpider.queue = convert_to_set(Spider.queue_file)
+		YungSpider.crawled = convert_to_set(Spider.crawled_file)
+	
+	def boot(self):
+
+
+
+
+
+
 		
 		
