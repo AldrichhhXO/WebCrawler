@@ -35,9 +35,35 @@ def yung_spider():
 
 	# Extracts the html code from that request
 	plain_text = source_code.text
+	 #print(plain_text)
+
+	 html_doc ="""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset = "UTF-8">
+	<meta name = "viewport" content="width=device=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>My Webpage</title>
+</head>
+<body>
+	<div id="section-1">
+	<h3 data-hello="hi">hello</h3>
+	<img src ="https://source.unsplash.com/200x200/?
+	nature,water" />
+	<p>Lorem ipsum dolor, sit amet consectetur
+	adepisicing elit. Fuga obcaecati quam sed
+	blanditiis! Quaerat tempore suscipit,
+		neque temporibus commodi nostrum qui magnam, totam
+	</p>
+</body>
+</html>
+"""
+
 
 	# Initialization of BeautifulSoup4
-	soup = BeautifulSoup(plain_text, 'html.parser')
+	# soup = BeautifulSoup(plain_text, 'html.parser')
+	soup = BeautifulSoup(html_doc, 'html.parser')
 
 	# Finds the first instance of the <a> (Hyperlink) element
 

@@ -1,4 +1,4 @@
-from YungSpider import YungSpider
+from YungSpider import *
 
 PROJECT_NAME = 'WebCrawler'
 BASE_URL = 'https://www.investopedia.com'
