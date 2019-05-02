@@ -1,6 +1,6 @@
-Python Based web crawler
+# Python Based web crawler
 
-CS156 
+## CS156 
 
 This is the implementation of a web crawler that will go through a website and take all of the information related to a particular stock.
 
