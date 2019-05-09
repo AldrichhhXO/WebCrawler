@@ -41,7 +41,11 @@ This MySQL database will consist of two tables:
 
 ### Stock Prediction Algorithm
 
-	TBD
+Although our stock prediction algorithm is still to be determined; possible key factors may include
+
+	1. Looking for the lines of support and / or resistance.
+	2. Dividends and stock splits
+	3. Observing historic trading volumes
 
 ### Stocks
 
@@ -49,12 +53,17 @@ This MySQL database will consist of two tables:
 
 ### Installing the packages
 
+
+### Key Websites / Links on Stocks
+
+	1. https://www.moneyunder30.com/how-to-read-a-stock-chart
+
 Pip3:
 python3 get-pip3.py
 
-1. BeautifulSoup - Pip3 install BeautifulSoup4
-2. Matplotlib - pip3 install Matplotlib.pyplot
-3. PyMySQL - pip3 install PyMySQL
+	1. BeautifulSoup - Pip3 install BeautifulSoup4
+	2. Matplotlib - pip3 install Matplotlib.pyplot
+	3. PyMySQL - pip3 install PyMySQL
 
 
 

@@ -17,10 +17,6 @@ import pymysql
 # Connection to the  database
 con = pymysql.connect('localhost', 'root', 'ASZNkevin1')
 
-with con:
-	cur = con.cursor()
-	print(cur)
-
 # This wil create the database instance in the MySQL server.
 def create_database():
 	print("### Creating database ###" + "\n")
@@ -28,6 +24,9 @@ def create_database():
 	with con:
 		cur = con.cursor()
 		cur.execute("CREATE DATABASE IF NOT EXISTS WebCrawler;")
+		print("WebCrawler Database initialized \n")
+
+		cur.execute("USE WebCrawler;")
 		cur.close()
 	initialize_tables()
 		
@@ -35,15 +34,17 @@ def create_database():
 # Initializing the tables for the webcrawler
 def initialize_tables():
 	print("### Initializing Tables ###" + "\n")
-	con = pymysql.connect('localhost', 'root', 'ASZNkevin1')
+	con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
 	with con:
 		cur = con.cursor()
 		
 		cur.execute("CREATE TABLE IF NOT EXISTS Queue \
-			(UrlID INT AUTO_INCREMENT \
+			(UrlID INT AUTO_INCREMENT, \
 			Url CHAR(100) NOT NULL, \
-			 Crawled VARCHAR(5) NOT NULL DEFAULT 'FALSE', \
-			 PRIMARY KEY(UrlID));")
+			Crawled VARCHAR(5) NOT NULL DEFAULT 'FALSE', \
+			PRIMARY KEY(UrlID));")
+
+
 
 		#  Todo: Figure out what to store in this table. ############
 		"""
@@ -51,22 +52,23 @@ def initialize_tables():
 				StockName: Name of the stock that we scrape.
 				urlID: Reference as to where the url came from. (may not need)
 
-		"""
-		cur.execute("CREATE TABLE IF NOT EXISTS StockData \
+			cur.execute("CREATE TABLE IF NOT EXISTS StockData \
 			(StockName VARCHAR(20), \
 			urlID INT NOT NULL \
 			FOREIGN KEY (urlID) REFERENCES Queue(UrlID));")
 
+		"""
+
+
+
 
 # Inserts the link into the database.
 def insert_link_to_db(link):
-	con = pymysql.connect('localhost', 'root', 'ASZNkevin1')
+	con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
 	with con:
 		cur = con.cursor()
-
 		cur.execute("INSERT INTO Queue (Url) VALUES (link)")
 		cur.close()
-
 
 
 
@@ -124,12 +126,5 @@ def convert_to_file(links, file):
 		addData(file, link)
 
 # create_data_files('stocks', 'https://www.investopedia.com')
-
-
-
-
-
-
-
 
 # create_project_dir('stocks')

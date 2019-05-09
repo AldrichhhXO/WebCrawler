@@ -5,6 +5,11 @@ import requests
 """
 	Spider Implementation.
 
+	Notes: 
+
+	Originally utilizing text files to store link data; will be implementing a database to be able
+	to insert all  of the links into a database and be able to read as well.
+
 """
 class YungSpider:
 
@@ -14,17 +19,9 @@ class YungSpider:
 	base_url = ''
 	domain_name =''
 
-	queue_file = ''
-	crawled_file = ''
+	links = set()
 
 
-	'''
-		Set that will determine what has been crawled and what
-		needs to be crawled.
-
-	'''
-	queue = set()
-	crawled = set()
 
 	# Called when spider is created.
 	def __init__(self, project_name, base_url, domain_name):
@@ -35,8 +32,6 @@ class YungSpider:
 		YungSpider.base_url = base_url
 		YungSpider.domain_name = domain_name
 
-		YungSpider.queue_file = YungSpider.project_name + '/queue.txt'
-		YungSpider.crawled_file = YungSpider.project_name + '/crawled.txt'
 
 		self.setup()
 		self.crawl_page('yeet', YungSpider.base_url)
@@ -45,10 +40,40 @@ class YungSpider:
 	@staticmethod
 	def setup():
 		print("Setting up.")
-		create_project_dir(YungSpider.project_name)
-		create_data_files(YungSpider.project_name, YungSpider.base_url)
-		YungSpider.queue = convert_to_set(YungSpider.queue_file)
-		YungSpider.crawled = convert_to_set(YungSpider.crawled_file)
+
+		create_database();
+
+		# create_project_dir(YungSpider.project_name)
+		# create_data_files(YungSpider.project_name, YungSpider.base_url)
+		# YungSpider.queue = convert_to_set(YungSpider.queue_file)
+		# YungSpider.crawled = convert_to_set(YungSpider.crawled_file)
+
+
+	"""
+		Database version of the crawl page method.
+		Overall Functionality:
+			1. Checks if the page is already crawled.
+				- If so then done. lol
+			2. If not then add it into the database.
+			3. Update the page URL in db to say its been crawled.
+			4. Recursively call add links to db.
+
+	"""
+	def crawl(spider, page_url):
+		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
+		with con:
+			cur = con.cursor()
+
+			# ################	If the current link has not been crawled, Crawl the link and update the value ########### #
+
+			resultNumber = cur.execute("SELECT * FROM Queue WHERE Url = ? AND Crawled = 'False';", page_url)
+			if (resultNumber ==0) return
+			else {
+
+			# Updates the crawled variable to be set to TRUE.
+			cur.execute("UPDATE Queue SET Crawled = 'True' WHERE Url = '?'", page_url)
+			}
+
 	
 	@staticmethod
 	def crawl_page(spider_name, page_url):
