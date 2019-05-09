@@ -23,10 +23,10 @@ def create_database():
 	con = pymysql.connect('localhost', 'root', 'ASZNkevin1')
 	with con:
 		cur = con.cursor()
+
 		cur.execute("CREATE DATABASE IF NOT EXISTS WebCrawler;")
 		print("WebCrawler Database initialized \n")
 
-		cur.execute("USE WebCrawler;")
 		cur.close()
 	initialize_tables()
 		
@@ -38,6 +38,9 @@ def initialize_tables():
 	with con:
 		cur = con.cursor()
 		
+		#	#############	Added to Keep the tables each time it's run.	#############	#
+		cur.execute("DROP TABLE IF EXISTS Queue")
+
 		cur.execute("CREATE TABLE IF NOT EXISTS Queue \
 			(UrlID INT AUTO_INCREMENT, \
 			Url CHAR(100) NOT NULL, \
