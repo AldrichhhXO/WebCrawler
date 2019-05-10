@@ -10,6 +10,11 @@ import requests
 	Originally utilizing text files to store link data; will be implementing a database to be able
 	to insert all  of the links into a database and be able to read as well.
 
+
+	When instantiated; The webcrawler will:
+		1. Setup: Initialize the  database and tables.
+		2. Crawl the page.
+
 """
 class YungSpider:
 
@@ -32,15 +37,19 @@ class YungSpider:
 		YungSpider.base_url = base_url
 		YungSpider.domain_name = domain_name
 
-
+		# Seta up the web crawler for the project.
 		self.setup()
-		self.crawl_page('yeet', YungSpider.base_url)
+		self.crawl("YungSpider", YungSpider.base_url)
+
+		# self.crawl_page('yeet', YungSpider.base_url)
 
 	# Sets up the web crawler.
 	@staticmethod
 	def setup():
 		print("Setting up.")
 
+
+		#  Creates the database for the webcrawler
 		create_database();
 
 		# create_project_dir(YungSpider.project_name)
@@ -59,21 +68,54 @@ class YungSpider:
 			4. Recursively call add links to db.
 
 	"""
+	@staticmethod
 	def crawl(spider, page_url):
+		print('################# Crawling '  + page_url + ' ####################')
 		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
-		with con:
-			cur = con.cursor()
+		try:
+			with con:
+				cur = con.cursor()	
+
+				# Insert if this is the very first  website  URL.
+				countsql = "SELECT * FROM Queue;"
+
+				insertsql =  "INSERT INTO QUEUE (Url) VALUES(%s);"
+
+				# Checks the amount links currently in the table.
+				numLinks = cur.execute(countsql)
+				print('!!!!!!!!!!!!    ' +  str(numLinks)  +  '      !!!!!!!!!!!')
+				if numLinks == 0:
+					cur.execute(insertsql, page_url)
+					con.commit()
+
 
 			# ################	If the current link has not been crawled, Crawl the link and update the value ########### #
+				resultNumber = cur.execute("SELECT * FROM Queue WHERE Url = %s AND Crawled = 'False';", page_url)
+				if resultNumber == 0: 
+					print('####### Link  Crawled.....')
+					return
+				else:
+					print(spider  +  ' now crawling '  +  page_url)
+					print('Queue: ')
 
-			resultNumber = cur.execute("SELECT * FROM Queue WHERE Url = ? AND Crawled = 'False';", page_url)
-			if (resultNumber ==0) return
-			else {
+					# Gathers all of the links intoa set.
+					links = YungSpider.gather_links(page_url)
+					print('################## Amount of links crawled:' + str(len(links)) +  ' #################')
+					for link in links:
+						insert_link_to_db(link)
+						print(link + '\n')
+						# cur.execute("INSERT INTO Queue (Url) VALUES(%s)", link)
 
-			# Updates the crawled variable to be set to TRUE.
-			cur.execute("UPDATE Queue SET Crawled = 'True' WHERE Url = '?'", page_url)
-			}
 
+					updateSQL = "UPDATE Queue SET  Crawled = 'TRUE' WHERE Url = %s"
+					# Updates the crawled variable to be set to TRUE.
+					cur.execute(updateSQL, page_url)
+					con.commit()
+
+
+		finally:
+			con.close()
+			
 	
 	@staticmethod
 	def crawl_page(spider_name, page_url):
@@ -112,27 +154,6 @@ class YungSpider:
 
 		print("Links found : " + str(len(result)))
 		return result
-
-
-		# links will be a set
-	@staticmethod
-	def add_links_to_queue(links):
-		for url in links:
-			if url in YungSpider.queue:	# if already in queued 
-				continue
-			if url in YungSpider.crawled:
-				continue
-			if YungSpider.domain_name not in url: # makes sure that it crawls within the domain.
-				continue
-			YungSpider.queue.add(url)
-
-	@staticmethod
-	def update_files():
-		convert_to_file(YungSpider.queue, YungSpider.queue_file)
-		convert_to_file(YungSpider.crawled, YungSpider.crawled_file)
-
-
-
 
 
 

@@ -43,11 +43,9 @@ def initialize_tables():
 
 		cur.execute("CREATE TABLE IF NOT EXISTS Queue \
 			(UrlID INT AUTO_INCREMENT, \
-			Url CHAR(100) NOT NULL, \
+			Url CHAR(200) NOT NULL, \
 			Crawled VARCHAR(5) NOT NULL DEFAULT 'FALSE', \
 			PRIMARY KEY(UrlID));")
-
-
 
 		#  Todo: Figure out what to store in this table. ############
 		"""
@@ -61,6 +59,8 @@ def initialize_tables():
 			FOREIGN KEY (urlID) REFERENCES Queue(UrlID));")
 
 		"""
+	con.close()
+
 
 
 
@@ -68,9 +68,12 @@ def initialize_tables():
 # Inserts the link into the database.
 def insert_link_to_db(link):
 	con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
-	with con:
-		cur = con.cursor()
-		cur.execute("INSERT INTO Queue (Url) VALUES (link)")
+	try:	
+		with con:
+			cur = con.cursor()
+			cur.execute("INSERT INTO Queue (Url) VALUES (%s)", link)
+			con.commit()
+	finally:
 		cur.close()
 
 
