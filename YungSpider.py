@@ -24,6 +24,9 @@ class YungSpider:
 	base_url = ''
 	domain_name =''
 
+	# SET OF STOCKS TO LOOK FOR INSIDE THE WEBSITE
+	stocks  = {'AAPL',  'TSLA', 'NFLX', 'AMZN'}
+
 	links = set()
 
 
@@ -149,8 +152,10 @@ class YungSpider:
 		for data in soup.find_all('a'):
 			# print(data)
 
-			# print(data.get('href'))
-			result.add(data.get('href'))
+			# Check if the link is in the same domain otherwise don't use.
+			parsedLink =  data.get('href')
+			if YungSpider.domain_name in parsedLink:
+				result.add(data.get('href'))
 
 		print("Links found : " + str(len(result)))
 		return result
