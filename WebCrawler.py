@@ -16,7 +16,7 @@ import requests
 		2. Crawl the page.
 
 """
-class YungSpider:
+class WebCrawler:
 
 
 	# Name of the folder containing the files
@@ -35,15 +35,15 @@ class YungSpider:
 
 		# Initialization of the Yung Spider.
 		print("Initializing")
-		YungSpider.project_name = project_name
-		YungSpider.base_url = base_url
-		YungSpider.domain_name = domain_name
+		WebCrawler.project_name = project_name
+		WebCrawler.base_url = base_url
+		WebCrawler.domain_name = domain_name
 
 		# Seta up the web crawler for the project.
 		self.setup()
-		self.crawl("YungSpider", YungSpider.base_url)
+		self.crawl("WebCrawler", WebCrawler.base_url)
 
-		# self.crawl_page('yeet', YungSpider.base_url)
+		# self.crawl_page('yeet', WebCrawler.base_url)
 
 	# Sets up the web crawler.
 	@staticmethod
@@ -54,10 +54,10 @@ class YungSpider:
 		#  Creates the database for the webcrawler
 		create_database();
 
-		# create_project_dir(YungSpider.project_name)
-		# create_data_files(YungSpider.project_name, YungSpider.base_url)
-		# YungSpider.queue = convert_to_set(YungSpider.queue_file)
-		# YungSpider.crawled = convert_to_set(YungSpider.crawled_file)
+		# create_project_dir(WebCrawler.project_name)
+		# create_data_files(WebCrawler.project_name, WebCrawler.base_url)
+		# WebCrawler.queue = convert_to_set(WebCrawler.queue_file)
+		# WebCrawler.crawled = convert_to_set(WebCrawler.crawled_file)
 
 
 	"""
@@ -101,7 +101,7 @@ class YungSpider:
 					print('Queue: ')
 
 					# Gathers all of the links intoa set.
-					links = YungSpider.gather_links(page_url)
+					links = WebCrawler.gather_links(page_url)
 					print('################## Amount of links crawled:' + str(len(links)) +  ' #################')
 					for link in links:
 						insert_link_to_db(link)
@@ -121,13 +121,13 @@ class YungSpider:
 	
 	@staticmethod
 	def crawl_page(spider_name, page_url):
-		if page_url not in YungSpider.crawled:
+		if page_url not in WebCrawler.crawled:
 			print(spider_name + ' now crawling ' + page_url)
-			print('Queue: ' + str(len(YungSpider.queue)) + ' | Crawled: ' + str(len(YungSpider.crawled)))
-			YungSpider.add_links_to_queue(YungSpider.gather_links(page_url))
-			YungSpider.queue.remove(page_url)
-			YungSpider.crawled.add(page_url)
-			YungSpider.update_files()
+			print('Queue: ' + str(len(WebCrawler.queue)) + ' | Crawled: ' + str(len(WebCrawler.crawled)))
+			WebCrawler.add_links_to_queue(WebCrawler.gather_links(page_url))
+			WebCrawler.queue.remove(page_url)
+			WebCrawler.crawled.add(page_url)
+			WebCrawler.update_files()
 
 
 		"""
@@ -153,7 +153,7 @@ class YungSpider:
 
 			# Check if the link is in the same domain otherwise don't use.
 			parsedLink =  data.get('href')
-			if YungSpider.domain_name in parsedLink:
+			if WebCrawler.domain_name in parsedLink:
 				result.add(data.get('href'))
 
 		print("Links found : " + str(len(result)))
