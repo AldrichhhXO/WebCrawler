@@ -26,7 +26,6 @@ class YungSpider:
 
 	# SET OF STOCKS TO LOOK FOR INSIDE THE WEBSITE
 	stocks  = {'AAPL',  'TSLA', 'NFLX', 'AMZN'}
-
 	links = set()
 
 
