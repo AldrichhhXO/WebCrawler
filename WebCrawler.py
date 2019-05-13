@@ -40,10 +40,11 @@ class WebCrawler:
 		WebCrawler.domain_name = domain_name
 
 		# Seta up the web crawler for the project.
+
+		# Commented for testing purposes
 		self.setup()
 		self.crawl("WebCrawler", WebCrawler.base_url)
-
-		# self.crawl_page('yeet', WebCrawler.base_url)
+		self.print_links()
 
 	# Sets up the web crawler.
 	@staticmethod
@@ -158,6 +159,37 @@ class WebCrawler:
 
 		print("Links found : " + str(len(result)))
 		return result
+
+
+	'''
+		######################################################################
+		This method is a getter method for the links.
+
+		######################################################################
+	'''
+	@staticmethod
+	def print_links():
+		
+		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
+		with con:
+			cur = con.cursor()
+			sqlstatement = 'SELECT * FROM Queue;'
+			cur.execute(sqlstatement)
+			ret = cur.fetchall()
+			for r in ret:
+				print(r)
+
+
+	@staticmethod
+	def gett_links():
+		
+		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
+		with con:
+			cur = con.cursor()
+			sqlstatement = 'SELECT Url FROM Queue;'
+			cur.execute(sqlstatement)
+			ret = cur.fetchall()
+			return ret
 
 
 

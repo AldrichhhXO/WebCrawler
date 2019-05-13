@@ -62,7 +62,7 @@ class Agent:
 	def __init__(self, page_url, program=None)
 
 
-		self.crawler = yungSpider()
+		self.crawler = None
 		self.page_url= page_url
 		self.decision = 'nothing'
 		self.news_score = 0
@@ -87,7 +87,7 @@ class Agent:
 '''
 def WebCrawlerAgent():
 	def program(percept):
-		program.state = update_state(program.state, program.action, percept, mnodel)
+		program.state = update_state(program.state, program.action, percept, model)
 		rule = rule_match(program.state, rules)
 		action = rule.action
 		return action
@@ -106,6 +106,14 @@ def rule_match(state, rules):
     for rule in rules:
         if rule.matches(state):
             return rule
+
+
+'''
+	#################################################################
+	Function for the agent to run it's webcrawlinfg method.
+	#################################################################
+'''
+def webCrawl():
 
 
 

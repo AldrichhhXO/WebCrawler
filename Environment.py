@@ -17,7 +17,7 @@
 	#################################################################
 '''
 
-from Yungspider import *
+from WebCrawler import *
 
 '''
 	#################################################################
@@ -34,13 +34,14 @@ from Yungspider import *
 
 class Environment:	
 	
-	def __init__(self):
-		self.agents = []
-		self.page_urls = []
+	def __init__(self, page_url, DOMAIN_NAME, agent):
+		self.agents = agent
+		self.page_url = page_url
 
 
 	# Percept function to attain all the data we need.
 	def percept(self, agent):
+
 
 
 
