@@ -41,6 +41,7 @@ class Environment:
 
 	# Percept function to attain all the data we need.
 	def percept(self, agent):
+		
 
 
 

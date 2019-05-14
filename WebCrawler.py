@@ -87,6 +87,8 @@ class WebCrawler:
 				# Checks the amount links currently in the table.
 				numLinks = cur.execute(countsql)
 				print('!!!!!!!!!!!!    ' +  str(numLinks)  +  '      !!!!!!!!!!!')
+
+				# if this is the very first link, insert and then crawl it.
 				if numLinks == 0:
 					cur.execute(insertsql, page_url)
 					con.commit()
@@ -180,6 +182,14 @@ class WebCrawler:
 				print(r)
 
 
+	'''
+		######################################################################
+		This method is a getter method for the links; will return a variable of all the links
+		
+		######################################################################
+
+
+	'''
 	@staticmethod
 	def gett_links():
 		

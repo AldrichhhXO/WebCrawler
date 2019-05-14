@@ -14,7 +14,9 @@ import pymysql
 
 """
 
-# Connection to the  database
+#######################################################################################
+# Connection to the  database, Remember to change values below to match your instance #
+#######################################################################################
 con = pymysql.connect('localhost', 'root', 'ASZNkevin1')
 
 # This wil create the database instance in the MySQL server.
@@ -41,9 +43,24 @@ def initialize_tables():
 		#	#############	Added to Keep the tables each time it's run.	#############	#
 		cur.execute("DROP TABLE IF EXISTS Queue")
 
+		'''
+			#########################################
+						Table Declaration
+			urlID: The link
+			url: The URL
+			level: level of crawling.
+			link_number: the order of crawled links in the level
+			Crawled: If the link has been crawled or not.
+
+			#########################################
+
+		'''
+
 		cur.execute("CREATE TABLE IF NOT EXISTS Queue \
 			(UrlID INT AUTO_INCREMENT, \
 			Url CHAR(200) NOT NULL, \
+			Level INT NOT NULL, \
+			Link_Number INT NOT NULL, \
 			Crawled VARCHAR(5) NOT NULL DEFAULT 'FALSE', \
 			PRIMARY KEY(UrlID));")
 
@@ -61,13 +78,36 @@ def initialize_tables():
 		"""
 	con.close()
 
-# Inserts the link into the database.
-def insert_link_to_db(link):
+# Inserts the link into the database, As well as the current level of the link in regards of crawling the links.
+def insert_link_to_db(link, level):
 	con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
 	try:	
 		with con:
 			cur = con.cursor()
-			cur.execute("INSERT INTO Queue (Url) VALUES (%s)", link)
+
+			# Find all rows that match the level that you are crawling
+			rows = cur.execute("SELECT * FROM Queue WHERE level = %d", level)
+
+			# If no rows found, first entry of the level, thus setting the value to 1.
+			if (rows == 0):
+				cursor.execute("INSERT INTO Queue (Url, level, link_number) VALUES (%s, %d, %d)", (link, level, 1))
+			else:
+				# If rows found, link_number will be set to the next number to the size of amount of current rows.
+				cur.execute("INSERT INTO Queue (Url, level, link_number) VALUES (%s, %d, %d)", (link, level, (rows + 1)))
 			con.commit()
 	finally:
 		cur.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+

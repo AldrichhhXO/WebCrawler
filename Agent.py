@@ -61,15 +61,25 @@
 class Agent:
 	def __init__(self, page_url, program=None)
 
-
-		self.crawler = None
+		# Sensors
+		self.crawler = WebCrawler()
 		self.page_url= page_url
+
+		# Actuatorsß
 		self.decision = 'nothing'
 		self.news_score = 0
 
 		if program is None or not isinstance(program, collections.Callable):
 			Print('Program has not been specified.')
 		self.program =program
+
+
+
+'''
+	Might be needed: Knowledge based agent.
+
+'''
+
 
 
 '''
@@ -109,11 +119,44 @@ def rule_match(state, rules):
 
 
 '''
+	##########################################################################################
+		Update_state function
+
+		Variables:
+		1.  state:  The current state of 
+	##########################################################################################
+'''
+def update_state(state, action, percept, model):
+
+
+
+'''
 	#################################################################
 	Function for the agent to run it's webcrawlinfg method.
+
+	
+
 	#################################################################
 '''
 def webCrawl():
+	self.crawler.setup()
+	self.crawler.crawl()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
