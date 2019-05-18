@@ -43,7 +43,7 @@ class WebCrawler:
 
 		# Commented for testing purposes
 		self.setup()
-		self.crawl("WebCrawler", WebCrawler.base_url)
+		# self.crawl("WebCrawler", WebCrawler.base_url)
 		self.print_links()
 
 	# Sets up the web crawler.
@@ -54,12 +54,6 @@ class WebCrawler:
 
 		#  Creates the database for the webcrawler
 		create_database();
-
-		# create_project_dir(WebCrawler.project_name)
-		# create_data_files(WebCrawler.project_name, WebCrawler.base_url)
-		# WebCrawler.queue = convert_to_set(WebCrawler.queue_file)
-		# WebCrawler.crawled = convert_to_set(WebCrawler.crawled_file)
-
 
 	"""
 		Database version of the crawl page method.
@@ -72,7 +66,7 @@ class WebCrawler:
 
 	"""
 	@staticmethod
-	def crawl(spider, page_url):
+	def crawl(spider, page_url, level):
 		print('################# Crawling '  + page_url + ' ####################')
 		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
 		try:
@@ -121,17 +115,15 @@ class WebCrawler:
 		finally:
 			con.close()
 			
-	
-	@staticmethod
-	def crawl_page(spider_name, page_url):
-		if page_url not in WebCrawler.crawled:
-			print(spider_name + ' now crawling ' + page_url)
-			print('Queue: ' + str(len(WebCrawler.queue)) + ' | Crawled: ' + str(len(WebCrawler.crawled)))
-			WebCrawler.add_links_to_queue(WebCrawler.gather_links(page_url))
-			WebCrawler.queue.remove(page_url)
-			WebCrawler.crawled.add(page_url)
-			WebCrawler.update_files()
 
+	def crawl_node(spider, node):
+		
+
+
+
+
+
+		
 
 		"""
 		Connects to a site

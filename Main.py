@@ -6,6 +6,14 @@ import matplotlib.pyplot as plt
 PROJECT_NAME = 'WebCrawler'
 BASE_URL = 'https://www.investopedia.com'
 DOMAIN_NAME = 'investopedia.com'
+
+
+
+'''
+	
+	Sensor
+
+'''
 WebCrawler(PROJECT_NAME, BASE_URL, DOMAIN_NAME)
 
 
