@@ -58,20 +58,30 @@
 		1. decision: Overall decision in regards to buying/selling stocks
 
 '''
+from WebCrawler import *
+from Memory import *
+import collections
+
 class Agent:
-	def __init__(self, page_url, program=None)
+	def __init__(self, page_url, program=None):
 
-		# Sensors
-		self.crawler = WebCrawler()
-		self.page_url= page_url
+		# Sensor
+		Agent.crawler = WebCrawler('Group 8 AI Project', page_url, 'https://investopedia.com')
 
-		# Actuatorsß
-		self.decision = 'nothing'
-		self.news_score = 0
+		# Check the info on the crawler
+		# print(Agent.crawler.project_name)
+
+		# States / Knowledge
+		rules = set()
+
+		# Actuators, actions will be based on these variables
+		Agent.decision = 'nothing'
+		Agent.news_score = 0
+
 
 		if program is None or not isinstance(program, collections.Callable):
-			Print('Program has not been specified.')
-		self.program =program
+			print('Program has not been specified.')
+		Agent.program =program
 
 
 
@@ -95,7 +105,7 @@ class Agent:
 			rule.action may also be a collection/Callable variable; will have to check the RBR later ******
 
 '''
-def WebCrawlerAgent():
+def WebCrawlerAgent(percept):
 	def program(percept):
 		program.state = update_state(program.state, program.action, percept, model)
 		rule = rule_match(program.state, rules)
@@ -110,12 +120,17 @@ def WebCrawlerAgent():
 	implemented, finding the rule that matches the state and then returning the
 	action for the agent to perform.
 
+	Variables:
+		1. State: the current percepts of the web crawler 
+		2. Rules: Rules from the RB-Representation to check
+
 '''
 def rule_match(state, rules):
     """Find the first rule that matches state."""
     for rule in rules:
         if rule.matches(state):
             return rule
+
 
 
 '''
@@ -127,22 +142,7 @@ def rule_match(state, rules):
 	##########################################################################################
 '''
 def update_state(state, action, percept, model):
-
-
-
-'''
-	#################################################################
-	Function for the agent to run it's webcrawlinfg method.
-
-	
-
-	#################################################################
-'''
-def webCrawl():
-	self.crawler.setup()
-	self.crawler.crawl()
-
-
+	return
 
 
 

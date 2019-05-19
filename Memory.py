@@ -68,14 +68,21 @@ def initialize_tables():
 		"""
 			StockData table:
 				StockName: Name of the stock that we scrape.
-				urlID: Reference as to where the url came from. (may not need)
-
-			cur.execute("CREATE TABLE IF NOT EXISTS StockData \
-			(StockName VARCHAR(20), \
-			urlID INT NOT NULL \
-			FOREIGN KEY (urlID) REFERENCES Queue(UrlID));")
-
+				52Wk Low: The low for the 52 week range
+				52Wk High: The high for the 52 week range
+				P/E
+				EPS
 		"""
+
+		cur.execute("CREATE TABLE IF NOT EXISTS StockData \
+			(StockID INT NOT NULL AUTO_INCREMENT, \
+			StockName VARCHAR(20) NOT NULL UNIQUE, \
+			52_Wk_Low FLOAT(30) NOT NULL, \
+			52_Wk_High FLOAT(30) NOT NULL, \
+			PriceEarnings FLOAT(30) NOT NULL, \
+			EPS FLOAT(30) NOT NULL, \
+			PRIMARY KEY(StockID));")
+
 	con.close()
 
 # Inserts the link into the database, As well as the current level of the link in regards of crawling the links.
@@ -97,6 +104,34 @@ def insert_link_to_db(link, level):
 			con.commit()
 	finally:
 		cur.close()
+
+'''
+
+	This will be responsible for storing the stockdata into the database, where the Agent can reference it later.
+
+
+'''
+def insert_stockdata_db(stockname, low, high, PE, EPS):
+
+	con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
+	with con.cursor() as cursor:
+
+		insert_sql = "INSERT INTO StockData(StockName, 52_Wk_Low, 52_Wk_High, PriceEarnings, EPS) \
+		VALUES(%s, %s, %s, %s);"
+
+		cursor.execute(insert_sql, (stockname, low, high, PE, EPS))
+
+	con.close()
+
+
+'''
+
+	Possible actions caller method, might be stored into the database
+	###### Check this later ############
+
+'''
+def retrieve_actions():
+
 
 
 

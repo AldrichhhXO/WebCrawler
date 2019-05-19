@@ -176,6 +176,7 @@ class WebCrawler:
 
 	'''
 		######################################################################
+
 		This method is a getter method for the links; will return a variable of all the links
 		
 		######################################################################
@@ -183,7 +184,7 @@ class WebCrawler:
 
 	'''
 	@staticmethod
-	def gett_links():
+	def get_links():
 		
 		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
 		with con:
@@ -193,6 +194,47 @@ class WebCrawler:
 			ret = cur.fetchall()
 			return ret
 
+
+	'''
+		This is the method that will be responsible for collecting all the data on the top portion of the
+		page.
+
+
+
+	'''
+	@staticmethod
+	def retrieve_stock_data(link):
+
+
+
+
+		# Gets the request and then converts into the HTML text.
+		source_code = requests.get(link)
+		plain_text = source_code.text
+
+		# print(plain_text)
+
+
+		# HTML parser for the website.
+		soup = BeautifulSoup(plain_text, 'html.parser')
+		result = soup.find_all('tr')
+
+
+		for r in result:
+			print(r.td)
+
+		#print(result)
+			
+
+
+		# gets the header of that corresponding row.
+		# adding the 'text' call retrieves the actual text within the header tag.
+		# print(result.th.text)
+
+
+
+
+		
 
 
 		
