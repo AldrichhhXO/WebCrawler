@@ -60,6 +60,7 @@
 '''
 from WebCrawler import *
 from Memory import *
+from KnowledgeBase import *
 import collections
 
 class Agent:
@@ -72,7 +73,7 @@ class Agent:
 		# print(Agent.crawler.project_name)
 
 		# States / Knowledge
-		rules = set()
+		Agent.rules = StockTrade()
 
 		# Actuators, actions will be based on these variables
 		Agent.decision = 'nothing'
@@ -121,15 +122,17 @@ def WebCrawlerAgent(percept):
 	action for the agent to perform.
 
 	Variables:
-		1. State: the current percepts of the web crawler 
+		1. State: the current percepts of the web crawler  (Might be an array of json / collections)
 		2. Rules: Rules from the RB-Representation to check
 
 '''
-def rule_match(state, rules):
-    """Find the first rule that matches state."""
-    for rule in rules:
-        if rule.matches(state):
-            return rule
+def rule_match(state):
+	kb = Agent.rules
+	kb.reset()
+	for s in state:
+		kb.declare(Fact(x = s))
+		kb.run()
+
 
 
 

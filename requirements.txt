@@ -6,6 +6,7 @@
 beautifulsoup4
 PyMySQL
 Matplotlib.pyplot
+Pyknow
 
 
 #####  Stocker Requirements. ######

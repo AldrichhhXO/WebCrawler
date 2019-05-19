@@ -34,7 +34,7 @@ class WebCrawler:
 	def __init__(self, project_name, base_url, domain_name):
 
 		# Initialization of the Yung Spider.
-		print("Initializing")
+		print("Initializing Web Crawler \n")
 		WebCrawler.project_name = project_name
 		WebCrawler.base_url = base_url
 		WebCrawler.domain_name = domain_name
@@ -49,7 +49,7 @@ class WebCrawler:
 	# Sets up the web crawler.
 	@staticmethod
 	def setup():
-		print("Setting up.")
+		print("Setting up Webcrawler")
 
 
 		#  Creates the database for the webcrawler
@@ -204,11 +204,13 @@ class WebCrawler:
 
 		# HTML parser for the website.
 		soup = BeautifulSoup(plain_text, 'html.parser')
-		result = soup.find_all('tr')
+		# result = soup.get_text()
 
 
-		for r in result:
-			print(r.td)
+		print(plain_text)
+
+
+		#print(soup.get_text())
 
 		#print(result)
 			

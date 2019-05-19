@@ -21,10 +21,13 @@ con = pymysql.connect('localhost', 'root', 'ASZNkevin1')
 
 # This wil create the database instance in the MySQL server.
 def create_database():
-	print("### Creating database ###" + "\n")
+	print("### Creating Database as State Space ###" + "\n")
 	con = pymysql.connect('localhost', 'root', 'ASZNkevin1')
 	with con:
 		cur = con.cursor()
+
+
+		cur.execute("DROP DATABASE IF EXISTS WebCrawler")
 
 		cur.execute("CREATE DATABASE IF NOT EXISTS WebCrawler;")
 		print("WebCrawler Database initialized \n")
@@ -40,8 +43,7 @@ def initialize_tables():
 	with con:
 		cur = con.cursor()
 		
-		#	#############	Added to Keep the tables each time it's run.	#############	#
-		cur.execute("DROP TABLE IF EXISTS Queue")
+
 
 		'''
 			#########################################
@@ -74,6 +76,7 @@ def initialize_tables():
 				EPS
 		"""
 
+
 		cur.execute("CREATE TABLE IF NOT EXISTS StockData \
 			(StockID INT NOT NULL AUTO_INCREMENT, \
 			StockName VARCHAR(20) NOT NULL UNIQUE, \
@@ -81,7 +84,13 @@ def initialize_tables():
 			52_Wk_High FLOAT(30) NOT NULL, \
 			PriceEarnings FLOAT(30) NOT NULL, \
 			EPS FLOAT(30) NOT NULL, \
+			1DayPrediction FLOAT(30) NOT NULL, \
+			7DayPrediction FLOAT(30) NOT NULL, \
+			30DayPrediction FLOAT(30) NOT NULL, \
 			PRIMARY KEY(StockID));")
+
+
+
 
 	con.close()
 
@@ -110,6 +119,8 @@ def insert_link_to_db(link, level):
 	This will be responsible for storing the stockdata into the database, where the Agent can reference it later.
 
 
+	Note: Done, just need to test
+
 '''
 def insert_stockdata_db(stockname, low, high, PE, EPS):
 
@@ -131,7 +142,7 @@ def insert_stockdata_db(stockname, low, high, PE, EPS):
 
 '''
 def retrieve_actions():
-
+	return
 
 
 

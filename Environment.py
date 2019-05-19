@@ -43,6 +43,8 @@ class Environment:
 	def percept(self, agent):
 		
 
+		
+
 
 
 
