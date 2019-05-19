@@ -116,15 +116,6 @@ class WebCrawler:
 			con.close()
 			
 
-	def crawl_node(spider, node):
-		
-
-
-
-
-
-		
-
 		"""
 		Connects to a site
 		Extracts the HTML in byte
@@ -196,17 +187,13 @@ class WebCrawler:
 
 
 	'''
+
 		This is the method that will be responsible for collecting all the data on the top portion of the
 		page.
-
-
 
 	'''
 	@staticmethod
 	def retrieve_stock_data(link):
-
-
-
 
 		# Gets the request and then converts into the HTML text.
 		source_code = requests.get(link)
