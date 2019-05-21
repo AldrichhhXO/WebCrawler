@@ -9,5 +9,3 @@ Matplotlib
 Pyknow
 pandas
 pandas-datareader
-
-scikit-learn

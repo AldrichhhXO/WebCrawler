@@ -167,7 +167,7 @@ class Agent:
 		
 
 		# Stocks to find
-		model = {'AAPL', 'AMZN', 'NFLX', 'TSLA'}
+		model = {'AAPL', 'AMZN','NFLX'}
 
 
 
@@ -176,6 +176,16 @@ class Agent:
 		# Actuators, actions will be based on these variables
 		# Agent.decision = 'nothing'
 		# Agent.news_score = 0
+
+
+
+	# Agent Program function.
+	def program(percept):
+		action = None
+
+
+
+		return action
 
 
 		# if program is None or not isinstance(program, collections.Callable):
@@ -201,7 +211,7 @@ class Agent:
 
 
 
-
+'''
 
 a = Agent('investopedia.com')
 state = [[48], [36], [100]]
@@ -218,7 +228,7 @@ for i in range(3):
 			e.declare(Fact(x = state[i][0])) #Close price
 			e.run()
 
-
+'''
 
 
 

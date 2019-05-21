@@ -27,7 +27,7 @@ def create_database():
 		cur = con.cursor()
 
 
-		cur.execute("DROP DATABASE IF EXISTS WebCrawler")
+		# cur.execute("DROP DATABASE IF EXISTS WebCrawler")
 
 		cur.execute("CREATE DATABASE IF NOT EXISTS WebCrawler;")
 		print("WebCrawler Database initialized \n")
@@ -110,47 +110,17 @@ def insert_link_to_db(link, level):
 			cur = con.cursor()
 
 			# Find all rows that match the level that you are crawling
-			rows = cur.execute("SELECT * FROM Queue WHERE level = %d", level)
+			rows = cur.execute("SELECT * FROM Queue WHERE level = %s", level)
 
 			# If no rows found, first entry of the level, thus setting the value to 1.
 			if (rows == 0):
-				cursor.execute("INSERT INTO Queue (Url, level, link_number) VALUES (%s, %d, %d)", (link, level, 1))
+				cur.execute("INSERT INTO Queue (Url, level, link_number) VALUES (%s, %s, %s)", (link, level, 1))
 			else:
 				# If rows found, link_number will be set to the next number to the size of amount of current rows.
-				cur.execute("INSERT INTO Queue (Url, level, link_number) VALUES (%s, %d, %d)", (link, level, (rows + 1)))
+				cur.execute("INSERT INTO Queue (Url, level, link_number) VALUES (%s, %s, %s)", (link, level, (rows + 1)))
 			con.commit()
 	finally:
 		cur.close()
-
-'''
-
-	This will be responsible for storing the stockdata into the database, where the Agent can reference it later.
-
-
-	Note: Done, just need to test
-
-'''
-def insert_stockdata_db(stockname, low, high, PE, EPS):
-
-	con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
-	with con.cursor() as cursor:
-
-		insert_sql = "INSERT INTO StockData(StockName, 52_Wk_Low, 52_Wk_High, PriceEarnings, EPS) \
-		VALUES(%s, %s, %s, %s);"
-
-		cursor.execute(insert_sql, (stockname, low, high, PE, EPS))
-
-	con.close()
-
-
-'''
-
-	Possible actions caller method, might be stored into the database
-	###### Check this later ############
-
-'''
-def retrieve_actions():
-	return
 
 
 

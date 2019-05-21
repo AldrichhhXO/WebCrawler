@@ -21,9 +21,12 @@ class Graph():
 
 		Method that will be called to graph the stock past to current data.
 
+
+		stockSet: Set containing all of the stocks to graph (From model variable in Agent, 4 stocks total)
+
 	'''
 	@staticmethod
-	def graph_stocks(stockName):
+	def graph_stocks(stockSet):
 		style.use('ggplot')
 
 		# Hard coded dates to cover a wide range of data
@@ -31,9 +34,10 @@ class Graph():
 		end = dt.datetime(2019,5,19)
 
 		# df = web.DataReader('AAPL', 'yahoo', start, end)
-		df = web.DataReader(stockName, 'yahoo', start, end)
-		print(df)
-		df['High'].plot()
+		for stock in stockSet:
+			df = web.DataReader(stock, 'yahoo', start, end)
+		#print(df)
+			df['High'].plot()
 		plt.show()
 
 
@@ -45,7 +49,8 @@ class Graph():
 	@staticmethod
 	def data_to_db(stockName):
 		style.use('ggplot')
-		print('yeeeee')
+		
+		insert = "INSERT INTO StockData"
 
 		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
 		with con.cursor() as cur:
@@ -64,6 +69,6 @@ class Graph():
 
 
 graph = Graph('AMZN')
-# graph.graph_stocks(graph.name)
-graph.data_to_db(graph.name)
+graph.graph_stocks(graph.name)
+# graph.data_to_db(graph.name)
 

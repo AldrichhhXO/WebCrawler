@@ -78,6 +78,7 @@ def depth_limited_search(problem, crawler, depth):
 				for stock in problem:
 					if stock in entry[1]:
 						print('Found the link: ' + entry[1] + '\n')
+						crawler.retrieve_stock_data(stock, entry[1])
 						return 'Link Found'
 	finally:
 		con.close()

@@ -22,6 +22,19 @@ Pip3 will also be needed as a tool to install various packages such as:
 	3. PyMySQL For storing data into a database for easier reading of data
 
 
+You will also need to download a MySQL Server to be able to run the program completely, since we use a database instead of nodes.
+
+When downloading the server you can either make the same 'root' and 'password', or you can change it, just make sure you replace
+all of the connection calls with your login information otherwise the code will not work.
+
+Link to the MySQL server: https://dev.mysql.com/downloads/mysql/
+
+
+### Installing the packages
+	
+	In the Requirements.txt we have all of the main modules required for our project. To install
+
+		1. pip3 install -r requirements.txt
 
 ### Database Schema
 
@@ -29,15 +42,19 @@ This MySQL database will consist of two tables:
 
 	1. StockData: Which will record the name of the stock and other information scraped from the web
 	2. Queue: Which will keep track of all of the URLs and whether or not they have been scraped or not.
+	3. WCData: Which will only keep track of the stock's current price
 
 
 ### Representation (Rule-Based)
 
-	TBD
+	We will be using PyKnow, which is a python module that allows us to be able to create rules and facts and have them stored into a class (Knowledge base)
 
 ### Agent
 
-	TBD
+	The Agent be initialized with certain variables:
+
+		1. Crawler: Web crawler to serve as the main sensor for the Agent.
+		2. Model: Which will contain the main stocks to search.
 
 ### Stock Prediction Algorithm
 
@@ -51,19 +68,13 @@ Although our stock prediction algorithm is still to be determined; possible key 
 
 	1. Netflix
 
-### Installing the packages
 
 
 ### Key Websites / Links on Stocks
 
 	1. https://www.moneyunder30.com/how-to-read-a-stock-chart
 
-Pip3:
-python3 get-pip3.py
 
-	1. BeautifulSoup - Pip3 install BeautifulSoup4
-	2. Matplotlib - pip3 install Matplotlib.pyplot
-	3. PyMySQL - pip3 install PyMySQL
 
 
 

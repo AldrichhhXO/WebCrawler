@@ -52,10 +52,8 @@ class WebCrawler:
 
 
 
-
-
 	"""
-		the crawl page method.
+		Database version of the crawl page method.
 		Overall Functionality:
 			1. Checks if the page is already crawled.
 				- If so then done. lol
@@ -65,55 +63,66 @@ class WebCrawler:
 
 	"""
 	@staticmethod
-	def crawl(spider, page_url, depth):
-		print('### Crawling '  + page_url + ' ###')
-		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
-		try:
-			with con:
-				cur = con.cursor()	
+	def crawl(spider, page_url, depth, limit):
+		if depth == limit:
+			return
+		else:
+			print('### Crawling '  + page_url + ' ###')
+			con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
+			try:
+				with con:
+					cur = con.cursor()	
 
-				# Insert if this is the very first  website  URL.
-				countsql = "SELECT * FROM Queue;"
+					# Insert if this is the very first  website  URL.
+					countsql = "SELECT * FROM Queue;"
 
-				# Checks the amount links currently in the table.
-				numLinks = cur.execute(countsql)
+					# Checks the amount links currently in the table.
+					numLinks = cur.execute(countsql)
 
-				# if this is the very first link, insert and then crawl it.
-				if numLinks == 0:
-					insert_link_to_db(page_url, depth)
-					
-
-			with con:
-			# ################	If the current link has not been crawled, Crawl the link and update the value ########### #
-				cur = con.cursor()
-				resultNumb = cur.execute(countsql)
-				print(resultNumb)
-				if resultNumb == 0: 
-					print('####### Link  Crawled.....')
-					return
-				else:
-					# print(spider  +  ' now crawling '  +  page_url)
-					# print('Queue: ')
-
-					# Gathers all of the links intoa set.
-					links = WebCrawler.gather_links(page_url)
-					# print('################## Amount of links crawled:' + str(len(links)) +  ' #################')
-					for link in links:
-						insert_link_to_db(link, (depth + 1))
+					# if this is the very first link, insert and then crawl it.
+					if numLinks == 0:
+						insert_link_to_db(page_url, depth)
 						
-						# cur.execute("INSERT INTO Queue (Url) VALUES(%s)", link)
+
+				with con:
+				# ################	If the current link has not been crawled, Crawl the link and update the value ########### #
+					cur = con.cursor()
+					resultNumb = cur.execute(countsql)
+					print(resultNumb)
+					if resultNumb == 0: 
+						print('####### Link  Crawled.....')
+						return
+					else:
+						# print(spider  +  ' now crawling '  +  page_url)
+						# print('Queue: ')
+
+						# Gathers all of the links into a set.
+						links = WebCrawler.gather_links(page_url)
+						if len(links) == 0:
+							return
+
+						updateSQL = "UPDATE Queue SET  Crawled = 'TRUE' WHERE Url = %s"
+						# Updates the crawled variable to be set to TRUE.
+						cur.execute(updateSQL, page_url)
+						con.commit()
 
 
-					updateSQL = "UPDATE Queue SET  Crawled = 'TRUE' WHERE Url = %s"
-					# Updates the crawled variable to be set to TRUE.
-					cur.execute(updateSQL, page_url)
-					con.commit()
+						# print('################## Amount of links crawled:' + str(len(links)) +  ' #################')
+						for link in links:
 
-					# Work on later
-					 # for link in links:
-						# WebCrawler.crawl(spider, link, depth + 1)
-		finally:
-			con.close()
+
+
+							insert_link_to_db(link, (depth + 1))
+							
+							# cur.execute("INSERT INTO Queue (Url) VALUES(%s)", link)
+
+
+						# Work on later
+						for link in links:
+							WebCrawler.crawl(spider, link, depth + 1, limit)
+			finally:
+				con.close()
+			
 			
 
 		"""
@@ -145,6 +154,8 @@ class WebCrawler:
 				elif not WebCrawler.domain_name in parsedLink:
 					continue
 				elif cur.execute('SELECT Url from Queue WHERE url = %s', parsedLink) > 0:
+					continue
+				elif len(parsedLink) > 180:
 					continue
 				else:
 					result.add(data.get('href'))
@@ -230,5 +241,6 @@ class WebCrawler:
 			cur.execute(insertql, (stockName, stock_data))
 			con.commit()
 		con.close()
+
 
 
