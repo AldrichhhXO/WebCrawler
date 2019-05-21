@@ -33,11 +33,16 @@ class Graph():
 		start = dt.datetime(2000,1,1)
 		end = dt.datetime(2019,5,19)
 
+
 		# df = web.DataReader('AAPL', 'yahoo', start, end)
 		for stock in stockSet:
 			df = web.DataReader(stock, 'yahoo', start, end)
 		#print(df)
+			df.to_csv(stock + '.csv')
 			df['High'].plot()
+
+		plt.title("Stock Highs (Red: AAPL, Blue: AMZN, Purple: NFLX)", fontsize = 8)
+		plt.ylabel('Stock High')
 		plt.show()
 
 
@@ -69,6 +74,6 @@ class Graph():
 
 
 graph = Graph('AMZN')
-graph.graph_stocks(graph.name)
+graph.graph_stocks({'AMZN', 'AAPL', 'NFLX'})
 # graph.data_to_db(graph.name)
 

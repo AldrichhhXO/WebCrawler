@@ -181,6 +181,10 @@ class Agent:
 
 	# Agent Program function.
 	def program(percept):
+
+		# Update State
+		
+
 		action = None
 
 

@@ -58,11 +58,8 @@ This MySQL database will consist of two tables:
 
 ### Stock Prediction Algorithm
 
-Although our stock prediction algorithm is still to be determined; possible key factors may include
-
-	1. Looking for the lines of support and / or resistance.
-	2. Dividends and stock splits
-	3. Observing historic trading volumes
+Due to the time constraint that we had, we were not able to construct a solid prediction algorithm.
+However, our current prediction algorithm will mainly be based on the rate of change within the stock prices.
 
 ### Stocks
 
