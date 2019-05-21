@@ -15,7 +15,7 @@ from Memory import *
 class Graph():
 
 	def __init__(self, stockSet):
-		self.name = stockSet
+		self.set = stockSet
 	
 	'''
 
@@ -52,28 +52,29 @@ class Graph():
 
 	'''
 	@staticmethod
-	def data_to_db(stockName):
+	def data_to_db(stockSet):
 		style.use('ggplot')
 		
-		insert = "INSERT INTO StockData"
+		insert = "INSERT INTO StockData (StockName, High, Low, Open, Close, Volume, Adj_Close) VALUES (%s, %s, %s, %s, %s, %s, %s);"
 
 		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
 		with con.cursor() as cur:
-			df = pd.read_csv('appl.csv', parse_dates=True, index_col=0)
-			for x in range(0,len(df)):
+			for stock in stockSet:
+				print(stock + ' CSV file going to DB.')
+				df = pd.read_csv(stock + '.csv', parse_dates=True, index_col=0)
+				for x in range(0,len(df)):
 
-				high = df.iloc[x, 0]
-				low = df.iloc[x, 1]
-				open = df.iloc[x,2]
-				close = df.iloc[x,3]
-				vol = df.iloc[x,4]
-				ac = df.iloc[x,5]
+					high = float(df.iloc[x, 0])
+					low = float(df.iloc[x, 1])
+					open = float(df.iloc[x,2])
+					close = float(df.iloc[x,3])
+					vol = float(df.iloc[x,4])
+					ac = float(df.iloc[x,5])
 
+					cur.execute(insert, (stock, high, low, open, close, vol, ac))
+					con.commit()
 
-				# print(reee)
-
-
-graph = Graph('AMZN')
+graph = Graph({'AMZN', 'AAPL'})
 graph.graph_stocks({'AMZN', 'AAPL', 'NFLX'})
-# graph.data_to_db(graph.name)
+graph.data_to_db(graph.set)
 

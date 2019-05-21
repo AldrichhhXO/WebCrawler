@@ -12,6 +12,42 @@ import pymysql
 
 	ToDo (If time): Convert the sql functons below into a sql file and read from there.
 
+	Tables:
+
+	Queue Table: 
+	+-------------+------------+------+-----+---------+----------------+
+	| Field       | Type       | Null | Key | Default | Extra          |
+	+-------------+------------+------+-----+---------+----------------+
+	| UrlID       | int(11)    | NO   | PRI | NULL    | auto_increment |
+	| Url         | char(200)  | NO   |     | NULL    |                |
+	| Level       | int(11)    | NO   |     | NULL    |                |
+	| Link_Number | int(11)    | NO   |     | NULL    |                |
+	| Crawled     | varchar(5) | NO   |     | FALSE   |                |
+	+-------------+------------+------+-----+---------+----------------+
+
+StockData Table: Used for the Dataframes in Pandas
++-----------+---------------+------+-----+---------+----------------+
+| Field     | Type          | Null | Key | Default | Extra          |
++-----------+---------------+------+-----+---------+----------------+
+| StockName | char(4)       | NO   |     | NULL    |                |
+| entry     | int(11)       | NO   | PRI | NULL    | auto_increment |
+| High      | decimal(12,6) | NO   |     | NULL    |                |
+| Low       | decimal(12,6) | NO   |     | NULL    |                |
+| Open      | decimal(12,6) | NO   |     | NULL    |                |
+| Close     | decimal(12,6) | NO   |     | NULL    |                |
+| Volume    | int(11)       | NO   |     | NULL    |                |
+| Adj_Close | decimal(12,6) | NO   |     | NULL    |                |
++-----------+---------------+------+-----+---------+----------------+
+
+WCData: Web Crawler crawling the current price of the stock in real time (re run program to get updates)
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| StockID      | int(11)       | NO   | PRI | NULL    | auto_increment |
+| StockName    | varchar(20)   | NO   | UNI | NULL    |                |
+| CurrentPrice | decimal(12,4) | NO   |     | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+
 """
 
 #######################################################################################
@@ -27,7 +63,7 @@ def create_database():
 		cur = con.cursor()
 
 
-		# cur.execute("DROP DATABASE IF EXISTS WebCrawler")
+		cur.execute("DROP DATABASE IF EXISTS WebCrawler")
 
 		cur.execute("CREATE DATABASE IF NOT EXISTS WebCrawler;")
 		print("WebCrawler Database initialized \n")
@@ -43,7 +79,6 @@ def initialize_tables():
 	with con:
 		cur = con.cursor()
 		
-
 
 		'''
 			#########################################
@@ -79,10 +114,10 @@ def initialize_tables():
 		sd_query = "CREATE TABLE IF NOT EXISTS StockData \
 		(StockName CHAR(4) NOT NULL, \
 		entry INT NOT NULL AUTO_INCREMENT, \
-		High DECIMAL(12, 6) NOT NULL, \
-		Low DECIMAL(12, 6) NOT NULL, \
-		Open DECIMAL(12, 6) NOT NULL, \
-		Close DECIMAL(12, 6) NOT NULL, \
+		High FLOAT(10, 15) NOT NULL, \
+		Low FLOAT(10, 15) NOT NULL, \
+		Open FLOAT(10, 15) NOT NULL, \
+		Close FLOAT(10, 15) NOT NULL, \
 		Volume INT NOT NULL, \
 		Adj_Close DECIMAL(12, 6) NOT NULL, \
 		PRIMARY KEY(entry));"

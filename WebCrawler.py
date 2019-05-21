@@ -93,8 +93,6 @@ class WebCrawler:
 						print('####### Link  Crawled.....')
 						return
 					else:
-						# print(spider  +  ' now crawling '  +  page_url)
-						# print('Queue: ')
 
 						# Gathers all of the links into a set.
 						links = WebCrawler.gather_links(page_url)
@@ -106,16 +104,10 @@ class WebCrawler:
 						cur.execute(updateSQL, page_url)
 						con.commit()
 
-
 						# print('################## Amount of links crawled:' + str(len(links)) +  ' #################')
 						for link in links:
-
-
-
-							insert_link_to_db(link, (depth + 1))
-							
+							insert_link_to_db(link, (depth + 1))	
 							# cur.execute("INSERT INTO Queue (Url) VALUES(%s)", link)
-
 
 						# Work on later
 						for link in links:
@@ -153,9 +145,7 @@ class WebCrawler:
 					continue
 				elif not WebCrawler.domain_name in parsedLink:
 					continue
-				elif cur.execute('SELECT Url from Queue WHERE url = %s', parsedLink) > 0:
-					continue
-				elif len(parsedLink) > 180:
+				elif len(parsedLink) > 190:
 					continue
 				else:
 					result.add(data.get('href'))
@@ -165,7 +155,7 @@ class WebCrawler:
 					
 
 
-		print("Links found : " + str(len(result)))
+		# print("Links found : " + str(len(result)))
 		return result
 
 

@@ -30,7 +30,8 @@ DOMAIN_NAME = 'investopedia.com'
 
 # This will initialize an Agent, with a webcrawling agent program.
 webCrawlingAgent = Agent(BASE_URL)
-webCrawlingAgent.crawler.crawl("YEET", BASE_URL, 0,2 )
+
+# webCrawlingAgent.crawler.crawl("YEET", BASE_URL, 0, 1)
 # webCrawlingAgent.crawler.retrieve_stock_data('AMZN','https://www.investopedia.com/markets/stocks/amzn/')
 
 '''

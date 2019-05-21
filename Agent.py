@@ -151,8 +151,13 @@ class Agent:
 
 	def __init__(self, percept):
 
-		# Sensor
-		Agent.crawler = WebCrawler('Group 8 AI Project', percept, 'https://investopedia.com')
+		# To make sure the crawled links stay within investopedia.
+		Agent.domain_name = 'investopedia.com'
+
+		# Sensor, Last parameter is used to make sure all the links stay in the investopedia website.
+		Agent.crawler = WebCrawler('Group 8 AI Project', percept, Agent.domain_name)
+
+
 
 		# Check the info on the crawler
 		# print(Agent.crawler.project_name)
@@ -166,8 +171,12 @@ class Agent:
 		'''
 		
 
-		# Stocks to find
+		# Stocks to find, Can change.
 		model = {'AAPL', 'AMZN','NFLX'}
+
+		# Pandas Graph initialization
+		graph = Graph(model)
+
 
 
 
@@ -179,16 +188,14 @@ class Agent:
 
 
 
-	# Agent Program function.
-	def program(percept):
+	# Agent Program function, getting the stocks to crawl will 
+	def Stocks_Program(percept):
 
-		# Update State
+		# Graphs the stocks and displays, make sure to exit out to not be stuck in the terminal.
+		graph.graph_stocks(graph.name)
+		crawler.crawl(("CS 156 Group 8 AI", BASE_URL, 0, 2))
 		
-
-		action = None
-
-
-
+		 # return an action for the program.
 		return action
 
 
@@ -209,8 +216,6 @@ class Agent:
 			print("Todays Price" + str(state[i][0]))
 			e.declare(Fact(x = state[i][0])) #Close price
 			e.run()
-
-
 
 
 
