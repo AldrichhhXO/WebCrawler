@@ -76,8 +76,22 @@ def initialize_tables():
 				EPS
 		"""
 
+		sd_query = "CREATE TABLE IF NOT EXISTS StockData \
+		(StockName CHAR(4) NOT NULL, \
+		entry INT NOT NULL AUTO_INCREMENT, \
+		High DECIMAL(12, 6) NOT NULL, \
+		Low DECIMAL(12, 6) NOT NULL, \
+		Open DECIMAL(12, 6) NOT NULL, \
+		Close DECIMAL(12, 6) NOT NULL, \
+		Volume INT NOT NULL, \
+		Adj_Close DECIMAL(12, 6) NOT NULL, \
+		PRIMARY KEY(entry));"
 
-		cur.execute("CREATE TABLE IF NOT EXISTS StockData \
+		cur.execute(sd_query)
+
+
+
+		cur.execute("CREATE TABLE IF NOT EXISTS WCData \
 			(StockID INT NOT NULL AUTO_INCREMENT, \
 			StockName VARCHAR(20) NOT NULL UNIQUE, \
 			52_Wk_Low FLOAT(30) NOT NULL, \
