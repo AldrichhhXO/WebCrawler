@@ -24,11 +24,6 @@ class WebCrawler:
 	base_url = ''
 	domain_name =''
 
-	# SET OF STOCKS TO LOOK FOR INSIDE THE WEBSITE
-	stocks  = {'AAPL',  'TSLA', 'NFLX', 'AMZN'}
-	links = set()
-
-
 
 	# Called when spider is created.
 	def __init__(self, project_name, base_url, domain_name):
@@ -207,11 +202,12 @@ class WebCrawler:
 	'''
 
 		This is the method that will be responsible for collecting all the data on the top portion of the
-		page.
+		page. Just current price for now, Pandas will grab the rest.
 
 	'''
 	@staticmethod
-	def retrieve_stock_data(link):
+	def retrieve_stock_data(stockName,link):
+		stock_data = set()
 
 		# Gets the request and then converts into the HTML text.
 		source_code = requests.get(link)
@@ -224,25 +220,15 @@ class WebCrawler:
 		soup = BeautifulSoup(plain_text, 'html.parser')
 		# result = soup.get_text()
 
+		result = soup.find('td', class_="value-price")
 
-		print(plain_text)
+		stock_data.add(result.text.replace(',', ''))
 
-
-		#print(soup.get_text())
-
-		#print(result)
-			
-
-
-		# gets the header of that corresponding row.
-		# adding the 'text' call retrieves the actual text within the header tag.
-		# print(result.th.text)
+		con = pymysql.connect('localhost', 'root', 'ASZNkevin1', 'WebCrawler')
+		with con.cursor() as cur:
+			insertql = 'INSERT INTO WCData (StockName, CurrentPrice) VALUES (%s, %s);'
+			cur.execute(insertql, (stockName, stock_data))
+			con.commit()
+		con.close()
 
 
-
-
-		
-
-
-		
-		

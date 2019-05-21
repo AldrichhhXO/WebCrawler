@@ -58,94 +58,166 @@
 		1. decision: Overall decision in regards to buying/selling stocks
 
 '''
+# from WebCrawler import *
+# from Memory import *
+# # from KnowledgeBase import *
+# import collections
+
+
+# import numpy as np
+from random import choice
+from pyknow import *
+from array import *
 from WebCrawler import *
-from Memory import *
-from KnowledgeBase import *
-import collections
+
+
+
+#averagepurchase_price=50
+#PRICE_high=averagepurchase_price*1.3
+#PRICE_low=averagepurchase_price*0.8
+
+#PRICE=0#[50,60,70]
+#PRICE_high=1.3 * PRICE#[100,80,120]
+#PRICE_low=.8 * PRICE#[50,40,30]  
+ApplePurchesedPrice = 50
+AmazonPurchesedPrice = 25 
+NetflixPurchesedPrice = 59      
+# PRICE_low=[ApplePurchesedPrice * .8, AmazonPurchesedPrice * .8, NetflixPurchesedPrice * .8] 
+# PRICE_high=[ApplePurchesedPrice * 1.3, AmazonPurchesedPrice * 1.3, NetflixPurchesedPrice * 1.3]
+PRICE_low=[50,40,30] 
+PRICE_high=[100,80,120]
+index=0
+
+
+# stock_bought=[100,200,95]   
+# stock_today=[80,30,120]  
+    
+
+class StockTrade(KnowledgeEngine):
+
+  
+    
+    @Rule(NOT(Fact(x=W())))
+    def init(self):
+    	print("here")
+
+    @Rule(Fact(x=P(lambda x: x >= PRICE_low[index]) & P(lambda x: x <= PRICE_high[index])))
+    def pr(self):
+        print("the price is between low and high value, hold the stock") 
+        print(PRICE_low[index])
+        print(PRICE_high[index])
+     
+    
+    @Rule(Fact(x=P(lambda x: x > PRICE_high[index])))
+    def ph(self):
+        print("the price is increase by more than 20%, sell the stock ")
+        print(PRICE_low[index])
+        print(PRICE_high[index])
+ #       self.retract(0)
+ #       self.declare(Fact(x=50))
+         
+    @Rule(Fact(x=P(lambda x: x < PRICE_low[index])))
+    def pl(self):
+        print("the value is less than 50, sell the stock to lock the lost") 
+        print(PRICE_low[index])
+        print(PRICE_high[index])
+        
+
+    
+# for i in range(0, 3):
+#     print( "start the engine" )
+#     index=i
+#     print(index)
+   
+#     print(stock_bought[i])   
+#     print(stock_today[i])
+#     engine = StockTrade()
+# ##    engine.set_averagepurchase_price(100)
+#     engine.reset()
+#     engine.declare(Fact(x=stock_today[index]))
+#     engine.run() 
+#    index=index+1
+    
+       
+
+#for x in range(0, 3):
+#   print( "start checking the price" )
+#    print(stock_bought[x])   
+ #   print(stock_today[x])
+
 
 class Agent:
-	def __init__(self, page_url, program=None):
+	# stocks = [StockTrade(), StockTrade(), StockTrade()]
+
+	def __init__(self, percept):
 
 		# Sensor
-		Agent.crawler = WebCrawler('Group 8 AI Project', page_url, 'https://investopedia.com')
+		Agent.crawler = WebCrawler('Group 8 AI Project', percept, 'https://investopedia.com')
 
 		# Check the info on the crawler
 		# print(Agent.crawler.project_name)
 
 		# States / Knowledge
-		Agent.rules = StockTrade()
+		
+		'''
+		Stocks array:[0] = apple
+					 [1] = amazon
+					 [2] = netflix
+		'''
+		
+
+		# Stocks to find
+		model = {'AAPL', 'AMZN', 'NFLX', 'TSLA'}
+
+
+
+		# Agent.rules = StockTrade()
 
 		# Actuators, actions will be based on these variables
-		Agent.decision = 'nothing'
-		Agent.news_score = 0
+		# Agent.decision = 'nothing'
+		# Agent.news_score = 0
 
 
-		if program is None or not isinstance(program, collections.Callable):
-			print('Program has not been specified.')
-		Agent.program =program
+		# if program is None or not isinstance(program, collections.Callable):
+		# 	print('Program has not been specified.')
+		# Agent.program =program
+	def rule_match(self, state):
+	
+		for i in range(3):
+			# self.stocks[i].setPurchesedPrice(state[i][0]) #price
+			index = i
+			print(index)
+			e = StockTrade()
+			print("Start Engine")
+			
+			e.reset()
 
-
-
-'''
-	Might be needed: Knowledge based agent.
-
-'''
-
-
-
-'''
-	#################################################################
-	Agent program similar to the model based agent program.
-	#################################################################
-
-	Similar to the pseudocode in the book.
-
-	Notes about this function:
-		1. Program is actually a collection.Callable variable; so it will be able to hold
-			numerous types of data.
-			rule.action may also be a collection/Callable variable; will have to check the RBR later ******
-
-'''
-def WebCrawlerAgent(percept):
-	def program(percept):
-		program.state = update_state(program.state, program.action, percept, model)
-		rule = rule_match(program.state, rules)
-		action = rule.action
-		return action
-	program.state = program.action = None
-	return program
-
-
-'''
-	Rule matching algorithm; will be used once the algorithm has been 
-	implemented, finding the rule that matches the state and then returning the
-	action for the agent to perform.
-
-	Variables:
-		1. State: the current percepts of the web crawler  (Might be an array of json / collections)
-		2. Rules: Rules from the RB-Representation to check
-
-'''
-def rule_match(state):
-	kb = Agent.rules
-	kb.reset()
-	for s in state:
-		kb.declare(Fact(x = s))
-		kb.run()
+			print("Todays Price" + str(state[i][0]))
+			e.declare(Fact(x = state[i][0])) #Close price
+			e.run()
 
 
 
 
-'''
-	##########################################################################################
-		Update_state function
 
-		Variables:
-		1.  state:  The current state of 
-	##########################################################################################
-'''
-def update_state(state, action, percept, model):
-	return
+
+
+
+a = Agent('investopedia.com')
+state = [[48], [36], [100]]
+for i in range(3):
+			# self.stocks[i].setPurchesedPrice(state[i][0]) #price
+			index = i
+			print(index)
+			e = StockTrade()
+			print("Start Engine")
+			
+			e.reset()
+
+			print("Todays Price" + str(state[i][0]))
+			e.declare(Fact(x = state[i][0])) #Close price
+			e.run()
+
 
 
 

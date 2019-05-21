@@ -45,9 +45,11 @@ class StockTrade(KnowledgeEngine):
         print("the value is less than 50, sell the stock to lock the lost") 
     
    
-# Examples     
+# Examples 
+'''    
 engine = StockTrade()
 engine.reset()
 engine.declare(Fact(x=60))
 engine.declare(Fact(x=80))
 engine.run() 
+'''

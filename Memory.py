@@ -94,13 +94,7 @@ def initialize_tables():
 		cur.execute("CREATE TABLE IF NOT EXISTS WCData \
 			(StockID INT NOT NULL AUTO_INCREMENT, \
 			StockName VARCHAR(20) NOT NULL UNIQUE, \
-			52_Wk_Low FLOAT(30) NOT NULL, \
-			52_Wk_High FLOAT(30) NOT NULL, \
-			PriceEarnings FLOAT(30) NOT NULL, \
-			EPS FLOAT(30) NOT NULL, \
-			1DayPrediction FLOAT(30) NOT NULL, \
-			7DayPrediction FLOAT(30) NOT NULL, \
-			30DayPrediction FLOAT(30) NOT NULL, \
+			CurrentPrice DECIMAL(12, 4) NOT NULL, \
 			PRIMARY KEY(StockID));")
 
 

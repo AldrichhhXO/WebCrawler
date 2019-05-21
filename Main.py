@@ -18,12 +18,19 @@ DOMAIN_NAME = 'yahoo.com'
 	Sensor
 
 '''
-WebCrawler(PROJECT_NAME, BASE_URL, DOMAIN_NAME)
+
+# Agent = Agent(WebCrawlerAgent(BASE_URL))
+
+
+# Testing that the web crawler works
+# wc = WebCrawler(PROJECT_NAME, BASE_URL, DOMAIN_NAME)
+# wc.setup()
+
 
 
 # This will initialize an Agent, with a webcrawling agent program.
-#webCrawlingAgent = Agent(BASE_URL, None)
-#webCrawlingAgent.crawler.retrieve_stock_data('https://www.investopedia.com/markets/stocks/amzn/')
+webCrawlingAgent = Agent(BASE_URL)
+webCrawlingAgent.crawler.retrieve_stock_data('AMZN','https://www.investopedia.com/markets/stocks/amzn/')
 
 '''
 	Save this one for later; may need to be like this for the end code.	
